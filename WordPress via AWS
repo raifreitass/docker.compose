@@ -1,0 +1,31 @@
+# Projeto Compass UOL - AWS e Docker #
+
+Este repositório contém o trabalho realizado durante o estágio na Compass UOL, focado no WordPress, Docker e AWS. 
+
+---
+
+
+## Instalação e Configuração do Docker/Containerd no Host EC2
+
+- Acesse o seu host EC2 da AWS.
+- Execute o seguinte comando para instalar o Docker via script de Start Instance (user_data.sh):
+
+``` sudo yum update -y
+    sudo amazon-linux-extras install docker -y
+    sudo systemctl start docker
+    sudo systemctl enable docker ```
+
+## Efetuar Deploy de uma Aplicação WordPress:
+
+- Passo 1: Crie uma instância EC2 com uma AMI do Amazon Linux.
+- Passo 2: Acesse a instância via SSH.
+- Passo 3: Use o Docker para configurar e iniciar containers:
+
+``` docker pull wordpress
+docker run --name wordpress-container -e WORDPRESS_DB_HOST=<RDS_ENDPOINT> -e WORDPRESS_DB_USER=<USERNAME> -e WORDPRESS_DB_PASSWORD=<PASSWORD> -e WORDPRESS_DB_NAME=<DB_NAME> -p 80:80 -d wordpress
+```
+
+- Passo 4: Configurar o banco de dados RDS MySQL:
+Crie um banco de dados MySQL na AWS RDS.
+Use o endpoint do banco de dados RDS ao iniciar o container WordPress.
+- Passo 5: Verifique o acesso à aplicação WordPress em http://<EC2_PUBLIC_IP>.
